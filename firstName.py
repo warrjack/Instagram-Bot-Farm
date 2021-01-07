@@ -6,11 +6,17 @@ from selenium.webdriver.common.keys import Keys
 
 from firebase import firebase
 
+# Configure
+#############################
+firebaseRef = ''
+numberOfNames = 0
+#############################
+
 #Setting Firebase URL
-firebase = firebase.FirebaseApplication("https://zooo-7e218.firebaseio.com/", None)
+firebase = firebase.FirebaseApplication(firebaseRef, None)
 
 def storeInFirebase(name):
-	post = firebase.post('/firstNamesM', {'firstNameM' : name})
+	post = firebase.post('/firstNames', {'firstName' : name})
 	return post
 
 
@@ -18,7 +24,7 @@ def storeInFirebase(name):
 def start():
         chrome_options = webdriver.ChromeOptions()
 	driver = webdriver.Chrome(chrome_options=chrome_options)
-        driver.get('https://www.randomlists.com/boy-names')
+        driver.get('https://www.randomlists.com/random-first-names')
         sleep(1)
         
 	generate = driver.find_element_by_xpath('/html/body/div/div[1]/div[2]/div[1]/div[1]/div/button[1]')
@@ -46,8 +52,7 @@ def start():
 	sleep(1)
 	
 #Number of times code executed (Names in sets of 12)
-numberOfNames = 32
 n = 0
 for n in range(0, numberOfNames):
-	print(n)	
+	print(n+1)	
 	start()

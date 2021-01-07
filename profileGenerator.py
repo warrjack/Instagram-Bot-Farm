@@ -4,24 +4,31 @@ import random as rand
 import time
 from firebase import firebase
 
-#Setting Firebase URL
-firebase = firebase.FirebaseApplication("https://zooo-7e218.firebaseio.com/", None)
+# Configure
+#############################
+firebaseRef = ''
+password = ''	
+collectionD = [] # Dates
+collectionG = [] # Grad Dates
+collectionU = [] # School (U=6, H=3)
+#############################
 
+# Setting Firebase URL
+firebase = firebase.FirebaseApplication(firebaseRef, None)
+
+# Arrays to save bio information
 collectionM = [] #Male First Names
 collectionF = [] #Female First Names
 collectionL = [] #Last Names
 #collectionU = [] #Usernames
 collectionB = [] #Bios
-collectionD = ["98", "99", "99", "00", "00", "01", "02"] #Dates
-collectionG = ["'21", "'22", "'22", "'22", "'23", "'19", "'18"] #Grad Dates
-collectionU = ["SMU", "StFX", "Waterloo", "Princeton", "Queens", "Dal", "DHS", "Lockview", "Grammar"] #School (U=6, H=3)
 
+# Save current bio being used
 bio = ""
 schoolBio = ""
 snapBio = ""
 locatBio = ""
 hobbyBio = ""
-password = "Fr0$tByt3"
 randomDate = rand.randint(0, (len(collectionD)-1))
 
 lastNameCount = 0
@@ -52,7 +59,8 @@ def createBio():
 		snapBio = emoji.emojize(":ghost: snapchat: "+lastName+firstName+lastLetterF)
 	else:
 		snapBio = ""
-		#University
+
+	# University
 	if randomDate == 0 or randomDate == 1 or randomDate == 2 or randomDate == 3:
 		randUniFormat = rand.randint(0,8)
 		randUni = rand.randint(0,6)
@@ -71,7 +79,7 @@ def createBio():
 		else:
 			schoolBio = ""
 		
-	#HighSchool
+	# HighSchool
 	else:
 		randUni = rand.randint(6, len(collectionU)-2)
 		randSchoolFormat = rand.randint(0,7)
@@ -88,22 +96,22 @@ def createBio():
 			schoolBio = emoji.emojize(collectionU[randUni]+' :apple:')
 		else:
 			schoolBio = ""
-	#Location
+	# Location
 	randLocation = rand.randint(0,7)
-	#Halifax
+	# Halifax
 	if randUni == 0 or randUni == 5 or randUni == 6 or randUni == 7 or randUni == 8:
 		if randLocation == 0:
-			locatBio = "HFX"
+			locatBio = "LDN"
 		elif randLocation == 1:
-			locatBio = "hali"
+			locatBio = "london"
 		elif randLocation == 2:
-			locatBio = "Halifax"
+			locatBio = "London"
 		elif randLocation == 3:
-			locatBio = "Halifax NS"
+			locatBio = "London Eng"
 		elif randLocation == 4:
-			locatBio = emoji.emojize(":round_pushpin: Halifax") 
+			locatBio = emoji.emojize(":round_pushpin: England") 
 		elif randLocation == 5:
-			locatBio = emoji.emojize(":canada:")
+			locatBio = emoji.emojize(":england:")
 		else:
 			locatBio = ""
 	elif randUni == 2 or randUni == 4:
@@ -117,12 +125,12 @@ def createBio():
 			locatBio = ""
 	elif randUni == 3:
 		if randLocation > 2:
-			locatBio = "Princeton"
+			locatBio = "New York"
 		elif randLocation == 3 or randLocation == 4:
-			locatBio = "Princeton, NJ"
+			locatBio = "New York, NY"
 		else:	
 			locatBio = ""
-	#Hobby&Extra
+	# Hobby&Extra
 	if randHobby == 1:
 		randHobbyEmoji = rand.randint(0,13)
 		if randHobbyEmoji == 0:
@@ -270,7 +278,7 @@ def storeInFirebaseM(FirstName, LastName, Username1, Username2, Username3, Usern
         post = firebase.post('/profilesM', {'FirstName' : FirstName, 'LastName' : LastName, 'Username1' : Username1, 'Username2' : Username2, 'Username3' : Username3, 'Username4' : Username4, 'Username5' : Username5, 'Username6' : Username6, 'Username7' : Username7, 'Username8' : Username8, 'Username9' : Username9, 'Username10' : Username10, 'Username11' : Username11, 'Username12' : Username12, 'Username13' : Username13, 'Bio' : Bio, 'DisplayName' : DisplayName, 'Password' : "Fr0$tByt3"})
         return post
 
-with open("data1.json") as data_file:
+with open("data.json") as data_file:
 	#Get Json File
 	data = json.load(data_file)
 	
@@ -312,6 +320,7 @@ with open("data1.json") as data_file:
 		lastLetterL = str(lastName[-1:])
 		lastLetterF = str(firstName[-1:])
 		global randomDate
+		# Create 12 different usernames to ensure availability
 		randomDate = rand.randint(0, (len(collectionD)-1))
 		username1 = collectionF[i]+collectionL[lastNameCount]
 		username2 = collectionF[i]+"_"+collectionL[lastNameCount]
@@ -333,6 +342,7 @@ with open("data1.json") as data_file:
 			username12 = collectionF[i]+collectionL[lastNameCount]+"20"+collectionD[randomDate]
 			username13 = collectionF[i]+"."+collectionL[lastNameCount]+"20"+collectionD[randomDate]
 		
+		# Add all usernames to one array
 		collectionUsernames.append(str(username1))
 		collectionUsernames.append(str(username2))
 		collectionUsernames.append(str(username3))
@@ -360,7 +370,7 @@ with open("data1.json") as data_file:
 		locatBio = ""
 		hobbyBio = ""
 		createBio()	
-		#Format
+		# Format
 		formatBio()
 		print(str(i))
 		print(str(lastNameCount)+")F")
@@ -371,6 +381,7 @@ with open("data1.json") as data_file:
 		print("Display Name: "+displayName)
 		print("Password: "+password)
 		time.sleep(1)
+		# Post to Firebase
 		print("Uploading To Database")
 		storeInFirebaseF(firstName, lastName, collectionUsernames[0], collectionUsernames[1], collectionUsernames[2], collectionUsernames[3], collectionUsernames[4], collectionUsernames[5], collectionUsernames[6], collectionUsernames[7], collectionUsernames[8], collectionUsernames[9], collectionUsernames[10], collectionUsernames[11], collectionUsernames[12], bio, displayName)
 		print("Upload Complete!")

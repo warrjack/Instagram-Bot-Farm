@@ -6,11 +6,17 @@ from selenium.webdriver.common.keys import Keys
 
 from firebase import firebase
 
+# Configure
+#############################
+firebaseRef = ''
+numberOfNames = 0
+#############################
+
 #Setting Firebase URL
-firebase = firebase.FirebaseApplication("https://zooo-7e218.firebaseio.com/", None)
+firebase = firebase.FirebaseApplication(firebaseRef, None)
 
 def storeInFirebase(name):
-	post = firebase.post('/lastNames', {'lastNames' : name})
+	post = firebase.post('/lastNames', {'lastName' : name})
 	return post
 
 
@@ -46,7 +52,6 @@ def start():
 	sleep(1)
 	
 #Number of times code executed (Names in sets of 12)
-numberOfNames = 10
 n = 0
 for n in range(0, numberOfNames):
 	print(n)	

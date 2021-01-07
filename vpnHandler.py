@@ -16,7 +16,7 @@ def checkVPN():
 def closing():
     closeVPN()
     
-parser = argparse.ArgumentParser(description="Does some awesome things.")
+parser = argparse.ArgumentParser(description="Does things.")
 parser.add_argument('message', type=str, help="pass a message into the script")
 
 
