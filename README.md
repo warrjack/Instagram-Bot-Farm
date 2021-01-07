@@ -2,6 +2,11 @@
 
 ## Intro
 The objective of this project was to create a large number of Instagram accounts and control the bots in a mass to achieve goals such as follow each other, comment on photos, change names, post photos, and other tasks performed on Instagram. This project contains scripts I've made to create realistic bios and credentials, manage VPNs to avoid banning, download and scrape data off of Google images and other sites, and uploading projects to either Firebase or local text files. This project was nearly fully automated until Instagram updated their sign up procedure, making it significantly more complex to sign up hundreds of accounts at a time. This being said, although this project is a few years outdated, this project still contains Python files I worked on that may still be relevant and helpful. This project was a side hobby along with high school and not everything is to par. But after working on this for so long, some files best represent my Python skills and is worth sharing. If you have any questions or concerns about the project feel free to message or comment in the near future.
+
+## How to run the project
+You start the project by filling out all the requirements in each file. Each file is given a brief overview, functionality, and how to run below. After that, you can start gathering account info for each account by running **firstName.py** and **lastName.py**. Once you've collected names for each account, you want to run **photoDownloader.py** to gather profile images and photos to post in the future. After that, download the FirstName and LastName databases as .json files and label it "data.json" and place it within the files folder. Then run **profileGenerator.py** to start creating identities for each account. Once complete, start the **vpnHandler.py** to mask your ip, then run the **bot_center.py** in the commandline to start controlling your bots with the given functions!
+
+You can import **botcore.py** and **bot_center.py** to fully automate the process, but you will need to swicth the VPN very frequently as Instagram has a strong ban for signing in or signing up too many accounts with the same IP address.
  
 ## Bot_Center.py
 
